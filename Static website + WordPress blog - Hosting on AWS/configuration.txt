@@ -1,0 +1,26 @@
+# filename: example.com
+# location: /etc/nginx/sites-enabled
+
+# redirect http to https
+# redirect example.com to www.example.com
+server {
+    listen 80;
+    server_name nanotechx.org.com;
+    return 301 https://www.example.com$request_uri;
+}
+
+# main block
+server {
+    listen 80;
+
+    server_name www.example.com;
+
+    # path to the static website folder
+    root /srv/www/your-website-folder;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        # serve static website files, throw "nginx 404 error" if file not found
+        try_files $uri $uri.html $uri/ =404;
+    }
+}
